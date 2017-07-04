@@ -1,0 +1,5 @@
+.projectile
+node_modules
+*.lock
+dist
+*.css
