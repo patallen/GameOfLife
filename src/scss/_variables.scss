@@ -1,5 +1,9 @@
-$sidebar-width: 220px;
+$sidebar-width: 260px;
 
-$color-prim-dark: #424853;
-$color-prim-light: #A5A7AB;
-$color-white: #F8F9FB;
+
+$swatch-outcast: #df2940;
+$swatch-outcast-light: lighten($swatch-outcast, 10);
+$swatch-primary-dark: #353535;
+$swatch-primary-light: #434343;
+$swatch-white: #FFFFFF;
+$swatch-offwhite: #D4D4D4;
