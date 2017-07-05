@@ -1,6 +1,6 @@
 import { copyObject } from '.';
 
-import ActionTypes from '../actions/action-types';
+import ActionTypes from '../actionTypes';
 
 const InitialState = {view: "PLAYER"};
 

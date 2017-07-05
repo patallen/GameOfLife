@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Sidebar from '../containers/sidebar';
-import GameView from '../containers/game-view';
+import Sidebar from '../containers/Sidebar';
+import GameView from '../containers/GameView';
 
 
 export default class App extends React.Component {

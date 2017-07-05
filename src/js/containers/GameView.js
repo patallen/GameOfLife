@@ -2,8 +2,8 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import Player from '../containers/player';
-import Editor from '../containers/editor';
+import Player from '../containers/Player';
+import Editor from '../containers/Editor';
 
 
 class GameView extends React.Component {
