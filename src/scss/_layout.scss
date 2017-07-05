@@ -26,6 +26,14 @@
         display: block;
         font-weight: 800;
     }
+    label.row-label {
+        font-size: .9em;
+        color: $swatch-offwhite;
+        display: block;
+        text-align: left;
+        text-transform: uppercase;
+        padding: 4px 20px 10px 20px;
+    }
 }
 
 
