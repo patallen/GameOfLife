@@ -18,8 +18,7 @@
     float: right;
     width: $sidebar-width;
     height: 100%;
-    padding: 6px;
-    padding-top: 10px;
+    padding: 20px;
 
     .sidebar-label {
         text-align: center;
@@ -32,20 +31,25 @@
         display: block;
         text-align: left;
         text-transform: uppercase;
-        padding: 4px 20px 10px 20px;
+        margin-bottom: 14px;
     }
 }
 
 
 .sidebar-row {
-    padding: 10px 0;
     display: block;
     width: 100%;
     &.align-center {
         text-align: center;
     }
+    &:before {
+        content: "";
+        width: 100%;
+        margin: 20px auto;
+        display: block;
+        border-top: 1px solid $swatch-primary-light;
+    }
 }
-
 .board-canvas {
     box-sizing: border-box;
     background-color: $swatch-primary-light;
