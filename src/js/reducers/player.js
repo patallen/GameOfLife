@@ -1,5 +1,6 @@
 import { copyObject } from '.';
 
+
 function playerReducer(state, action) {
     if (!state) {
         return {

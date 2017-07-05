@@ -1,15 +1,19 @@
 import { copyObject } from '.';
 
+import ActionTypes from '../actions/action-types';
+
+const InitialState = {view: "PLAYER"};
+
 function viewReducer(state, action) {
-    if(state === undefined) {
-        return {view: "PLAYER"};
-    }
+    if(state === undefined)
+        return InitialState;
+
     let temp = copyObject(state);
     switch (action.type) {
-        case "SET_GAME_VIEW":
+        case ActionTypes.SET_GAME_VIEW:
             temp.view = action.payload;
             break;
-        case "RESET_GAME_VIEW":
+        case ActionTypes.RESET_GAME_VIEW:
             temp.view = "PLAYER";
             break;
     };
