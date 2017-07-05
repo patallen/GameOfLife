@@ -1,3 +1,5 @@
+import { copyObject } from '.';
+
 function playerReducer(state, action) {
     if (!state) {
         return {
@@ -9,7 +11,7 @@ function playerReducer(state, action) {
             }
         };
     }
-    return state;
+    return copyObject(state);
 }
 
 export default playerReducer;

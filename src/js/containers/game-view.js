@@ -8,10 +8,11 @@ import Editor from '../containers/editor';
 
 class GameView extends React.Component {
     render() {
+        let { view } = this.props;
         return (
             <div className="game-view">
-                <Player enabled={this.props.view === "PLAYER"} />
-                <Editor enabled={this.props.view === "EDITOR"} />
+                <Player enabled={view === "PLAYER"} />
+                <Editor enabled={view === "EDITOR"} />
             </div>
         );
     }

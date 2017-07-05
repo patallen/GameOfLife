@@ -1,6 +1,8 @@
 function viewReducer(state, action) {
-    state = state || {current: "PLAYER"};
-    return state;
+    if (state === undefined) {
+        return {current: "PLAYER"};
+    }
+    return copyObject(state);
 }
 
 export default viewReducer;

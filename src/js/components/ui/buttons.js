@@ -18,16 +18,13 @@ export class ToggleButton extends React.Component {
         this.callback(state);
     }
     render() {
-        const selectClass = () => {
-            return this.state.selected === this.options.first ? "state-left" : "state-right";
-        };
-        let { callback } = this.props;
+        let selectedClass = this.state.selected === this.options.first ? "state-right" : "state-left";
         return (
             <div className="toggle-wrapper">
                 <div className="toggle-option toggle-option-left">{this.options.first.display}</div>
                 <div className="toggle-option toggle-option-right">{this.options.second.display}</div>
                 <div className="toggle-cover">
-                    <div onClick={() => this.toggle(callback)} className={`toggle-nub ${selectClass()}`} />
+                    <div onClick={() => this.toggle()} className={`toggle-nub ${selectedClass}`} />
                 </div>
             </div>
         );

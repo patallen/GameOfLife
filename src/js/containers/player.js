@@ -7,7 +7,6 @@ class Player extends React.Component {
     render() {
         let display = this.props.enabled ? "block" : "none";
         let style = {display};
-        console.log(this.props.state);
         return (
             <canvas id="canvas-player" className="board-canvas" style={style}>
             </canvas>
@@ -17,7 +16,7 @@ class Player extends React.Component {
 
 
 function mapStateToProps({player}) {
-    return player;
+    return {player};
 }
 
 export default connect(mapStateToProps)(Player);
