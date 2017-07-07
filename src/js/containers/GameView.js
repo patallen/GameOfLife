@@ -11,8 +11,7 @@ class GameView extends React.Component {
         let { view } = this.props;
         return (
             <div className="game-view">
-                <Player enabled={view === "PLAYER"} />
-                <Editor enabled={view === "EDITOR"} />
+                <Editor enabled={view === "EDITOR"} width={2000} height={2000} scale={10} zoom={1}/>
             </div>
         );
     }
