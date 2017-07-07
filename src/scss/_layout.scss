@@ -1,4 +1,4 @@
-.separate:after {
+oseparate:after {
     content: "";
     display: block;
     width: 94%;
@@ -9,16 +9,28 @@
 }
 
 .game-view {
-    height: 100%;
+    padding-top: 0;
+    padding-right: 10px;
+    padding-left: 2px;
+    height: calc(100% - 80px);
     float: left;
     width: calc(100% - #{$sidebar-width})
 }
 
 .sidebar {
+    position: relative;
+    &:before{
+        content: "";
+        display: block;
+        border-top: 1px solid $swatch-primary-light;
+        height: 14p;
+        width: 100%;
+        padding-bottom: 24px;
+    }
     float: right;
     width: $sidebar-width;
-    height: 100%;
-    padding: 20px;
+    height: calc(100% - $header-height);
+    padding: 0 20px;
 
     .sidebar-label {
         text-align: center;
@@ -42,17 +54,10 @@
     &.align-center {
         text-align: center;
     }
-    &:before {
-        content: "";
-        width: 100%;
-        margin: 20px auto;
-        display: block;
-        border-top: 1px solid $swatch-primary-light;
-    }
+    margin-bottom: 30px;
 }
 .board-canvas {
-    box-sizing: border-box;
-    background-color: $swatch-primary-light;
+    z-index: 1000;
     width: 100%;
     height: 100%;
 }
