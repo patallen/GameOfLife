@@ -86,10 +86,10 @@ export default class Display {
     set height(height) {
         this.canvas.height = height;
     }
-    fillCell(x, y, bounds, offset, scale, color) {
+    fillCell(x, y, bounds, offset, scale) {
         let xx = Math.floor(scale * (x - bounds.x[0])) + offset.x;
         let yy = Math.floor(scale * (y - bounds.y[0])) + offset.y;
-        this.context.fillStyle = color;
+        this.context.fillStyle = this.colors.alive;
         this.context.fillRect(xx, yy, scale, scale);
     }
     draw(board, scale, offsets) {
@@ -98,15 +98,10 @@ export default class Display {
 
         let xDist = (bounds.x[1] - bounds.x[0]) * scale;
         let yDist = (bounds.y[1] - bounds.y[0]) * scale;
-
-        this.context.fillStyle = this.colors.dead;
-        this.context.fillRect(offset.x,offset.y, xDist + scale, yDist + scale);
-
         for (let y = bounds.y[0]; y <= bounds.y[1]; y++) {
             for (let x = bounds.x[0]; x <= bounds.x[1]; x++) {
-                if (board.cells[y][x]) {
-                    this.fillCell(x, y, bounds, offset, scale, this.colors.alive);
-                }
+                if (board.cells[y][x])
+                    this.fillCell(x, y, bounds, offset, scale);
             }
         }
     }

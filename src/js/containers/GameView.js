@@ -8,33 +8,35 @@ import Player from '../containers/Player';
 import Editor from '../containers/Editor';
 import Display from '../containers/Display';
 
+import Board from '../game.js';
+
 const COLORS = {
     dead: "#AAA",
     alive: "#222"
 };
 const randomBoard = (x, y) => {
-    let board = [];
+    let cells = [];
     for (let i = 0; i < y; i++) {
         let row = [];
         for (let j = 0; j < x; j++) {
             let value = Math.round(Math.random(1)) === 1;
             row.push(value);
         }
-        board.push(row);
+        cells.push(row);
     }
-    return {
-        width: x,
-        height: y,
-        cells: board
-    };
+    return cells;
 };
 
 class GameView extends React.Component {
-    constructor({settings, view}) {
+    constructor() {
         super();
-        this.board = randomBoard(600, 400);
+    }
+    createGame(width, height, layoutFn) {
+        this.board = new Board({width, height, layoutFn});
     }
     componentDidMount() {
+        let canvas = this.refs.canvas;
+        this.createGame(600, 400, () => randomBoard(400, 300));
         this.display = new Display(canvas, this.props.settings.colors);
         this.display.setColors(COLORS);
         this.addEventListeners();
@@ -48,7 +50,8 @@ class GameView extends React.Component {
     }
     displayDraw() {
         let {colors, scale, offset} = this.props.settings;
-        this.display.draw(this.board, scale, offset);
+        let board = this.board.toObject();
+        this.display.draw(board, scale, offset);
     }
     render() {
         let { view } = this.props;
@@ -86,7 +89,6 @@ function mapStateToProps(state) {
         settings: state.view.settings
     };
 }
-
 
 const mapDispatchToProps = (dispatch) => {
     return {
