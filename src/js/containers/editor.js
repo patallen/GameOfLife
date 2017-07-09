@@ -13,13 +13,11 @@ const randomBoard = (x, y) => {
         }
         board.push(row);
     }
-    console.log(board);
     return board;
 };
 
 export default class Editor extends React.Component {
     constructor({ width, height, scale }, ...state) {
-        console.log(width, height, scale, state);
         super();
         this.mult = 0.001;
         let board = {
@@ -42,22 +40,29 @@ export default class Editor extends React.Component {
         };
     }
     componentDidMount() {
-        this.canvas.width = this.width;
-        this.canvas.height = this.height;
+        this.canvas = this.refs.canvas;
+        this.context = this.canvas.getContext('2d');
+        window.addEventListener("resize", () => {
+            this.resizeCanvas();
+            this.renderCanvas();
+        });
+        this.resizeCanvas();
         this.renderCanvas();
     }
+    resizeCanvas() {
+        let wrapper = this.refs.wrapper;
+        this.canvas.width = wrapper.offsetWidth;
+        this.canvas.height = wrapper.offsetHeight;
+    }
     renderCanvas() {
-        console.log("rendering");
         let { colors, zoom = 1, board, pinPoint } = this.state;
-        let ctx = this.canvas.getContext('2d');
         let s = this.scale * zoom;
-        console.log(s);
         for (let row = 0; row < board.height; row++) {
             for (let col = 0; col < board.width; col++) {
                 let cellAlive = board.board[row][col];
-                if (cellAlive) ctx.fillStyle = colors.alive;
-                else ctx.fillStyle = colors.dead;
-                ctx.fillRect(10 * col, 10 * row, 10, 10);
+                if (cellAlive) this.context.fillStyle = colors.alive;
+                else this.context.fillStyle = colors.dead;
+                this.context.fillRect(10 * col, 10 * row, 10, 10);
             }
         }
     }
@@ -68,12 +73,14 @@ export default class Editor extends React.Component {
         let display = this.props.enabled ? "block" : "none";
         let style = {display};
         return (
-            <canvas
-                id="canvas-editor"
-                className="board-canvas"
-                ref={c => {this.canvas = c;}}
-                onClick={this.renderCanvas.bind(this)}
-            />
+            <div ref="wrapper" style={{ width:"100%", height: "100%" }}>
+                <canvas
+                    id="canvas-editor"
+                    className="board-canvas"
+                    ref="canvas"
+                    onClick={this.renderCanvas.bind(this)}
+                    />
+            </div>
         );
     }
 }

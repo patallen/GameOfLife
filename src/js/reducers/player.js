@@ -12,7 +12,6 @@ const initialState = {
 };
 
 function playerReducer(state, action) {
-    console.log("ACTION", action);
     if (state === undefined)
         return initialState;
 

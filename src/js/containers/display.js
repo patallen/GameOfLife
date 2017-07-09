@@ -10,26 +10,18 @@ function min(a, b) {
 }
 
 
-export default class Display extends React.Component {
-    constructor({colors}) {
-        super();
-        this.dragging = false;
-        this.offset = {x: 0, y: 0};
+export default class Display {
+    constructor(canvas, colors) {
+        this.canvas = canvas;
+        this.context = canvas.getContext('2d');
         this.colors = colors;
         this.offset = {x: 0, y: 0};
-        this.scale = 10;
-    }
-    componentDidMount() {
-        this.offset = {x: 0, y: 0};
-        this.canvas = this.refs.canvas;
-        this.context = this.canvas.getContext('2d');
-        this.resize(this._width, this._height);
         this.addEventListeners();
-        let loop = () => {
-            this.draw();
-            requestAnimationFrame(loop);
-        };
-        loop();
+        this.resize();
+        this.dragging = false;
+    }
+    addEventListener(eventName, callback) {
+        this.canvas.addEventListener(eventName, callback);
     }
     addEventListeners() {
         document.addEventListener("mouseup", () => {
@@ -38,51 +30,36 @@ export default class Display extends React.Component {
         this.canvas.addEventListener("mousedown", () => {
             this.dragging = true;
         });
-        this.canvas.addEventListener("mousewheel", (e) => {
-            e.preventDefault();
-            let ns = this.scale + (e.deltaY * .05);
-            this.scale = ns < 2 ? 2 : (ns > 100 ? 100 : ns);
-        });
-        this.canvas.addEventListener("mousemove", (e) => {
-            if (this.dragging) {
-                this.offset.x += e.movementX;
-                this.offset.y += e.movementY;
-            }
-        });
-        window.addEventListener("resize", () => {
-            this.resize();
-            this.draw();
-        });
     }
-    _axisBounds(offset, maxLen, screenPx) {
-        let count = screenPx / this.scale + 1;
-        let low, high;
-        if(offset > 0) {
-            low = 0;
-            count = Math.ceil((screenPx - offset) / this.scale);
-        } else {
-            low = Math.floor(-offset / this.scale);
-            offset = offset % this.scale;
-        }
-        high = min(low + count, maxLen - 1);
-        return {low, high, offset};
-    }
-    _getBounds(boardWidth, boardHeight) {
-        let xSpecs = this._axisBounds(this.offset.x, boardWidth, this.width);
-        let ySpecs = this._axisBounds(this.offset.y, boardHeight, this.height);
+    _getBounds(offset, boardWidth, boardHeight, scale) {
+        let xSpecs = this._axisBounds(offset.x, boardWidth, this.width, scale);
+        let ySpecs = this._axisBounds(offset.y, boardHeight, this.height, scale);
         return {
             offset: {
                 x: xSpecs.offset,
-                y: ySpecs.offset},
+                y: ySpecs.offset
+            },
             bounds: {
                 x: [xSpecs.low, xSpecs.high],
                 y: [ySpecs.low, ySpecs.high]
             }
         };
     }
+    _axisBounds(offset, maxLen, screenPx, scale) {
+        let count = screenPx / scale + 1;
+        let low, high;
+        if(offset > 0) {
+            low = 0;
+            count = Math.ceil((screenPx - offset) / scale);
+        } else {
+            low = Math.floor(-offset / scale);
+            offset = offset % scale;
+        }
+        high = min(low + count, maxLen - 1);
+        return {low, high, offset};
+    }
     clear() {
         this.context.clearRect(0, 0, this.width, this.height);
-        this.context.fillStyle = this.colors.dead;
     }
     resize(callback) {
         this.width = this.canvas.offsetWidth;
@@ -90,6 +67,12 @@ export default class Display extends React.Component {
         if (typeof callback === 'function') {
             callback(this);
         }
+    }
+    setColors({dead, alive}) {
+        if(dead)
+            this.colors.dead = dead;
+        if(alive)
+            this.colors.alive = alive;
     }
     get width() {
         return this.canvas.width;
@@ -103,34 +86,28 @@ export default class Display extends React.Component {
     set height(height) {
         this.canvas.height = height;
     }
-    draw() {
+    fillCell(x, y, bounds, offset, scale, color) {
+        let xx = Math.floor(scale * (x - bounds.x[0])) + offset.x;
+        let yy = Math.floor(scale * (y - bounds.y[0])) + offset.y;
+        this.context.fillStyle = color;
+        this.context.fillRect(xx, yy, scale, scale);
+    }
+    draw(board, scale, offsets) {
         this.clear();
+        let {offset, bounds} = this._getBounds(offsets, board.width, board.height, scale);
 
-        let s = this.scale;
-        let board = this.props.board;
-        let {offset, bounds} = this._getBounds(board.width, board.height);
-        let xDist = (bounds.x[1] - bounds.x[0]) * s;
-        let yDist = (bounds.y[1] - bounds.y[0]) * s;
-        this.context.fillRect(offset.x, offset.y, xDist, yDist);
-        this.context.fillStyle = this.colors.alive;
-        this.fillStyle = this.colors.alive;
+        let xDist = (bounds.x[1] - bounds.x[0]) * scale;
+        let yDist = (bounds.y[1] - bounds.y[0]) * scale;
+
+        this.context.fillStyle = this.colors.dead;
+        this.context.fillRect(offset.x,offset.y, xDist + scale, yDist + scale);
+
         for (let y = bounds.y[0]; y <= bounds.y[1]; y++) {
             for (let x = bounds.x[0]; x <= bounds.x[1]; x++) {
-                let xx = Math.floor(s * (x - bounds.x[0])) + offset.x;
-                let yy = Math.floor(s * (y - bounds.y[0])) + offset.y;
                 if (board.cells[y][x]) {
-                    this.context.fillRect(xx, yy, s, s);
+                    this.fillCell(x, y, bounds, offset, scale, this.colors.alive);
                 }
             }
         }
-    }
-    shouldComponentUpdate() {
-        return false;
-    }
-    render() {
-        return (
-            <canvas id="canvas" ref="canvas" style={{width: "100%", height: "100%"}}>
-            </canvas>
-        );
     }
 }
