@@ -1,22 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import { connect } from 'react-redux';
-
+import { connect } from "react-redux";
 
 class Player extends React.Component {
-    render() {
-        let display = this.props.enabled ? "block" : "none";
-        let style = {display};
-        return (
-            <canvas id="canvas-player" className="board-canvas" style={style}>
-            </canvas>
-        );
-    }
+  render() {
+    let display = this.props.enabled ? "block" : "none";
+    let style = { display };
+    return <canvas id="canvas-player" className="board-canvas" style={style} />;
+  }
 }
 
-
-function mapStateToProps({player}) {
-    return {player};
+function mapStateToProps({ player }) {
+  return { player };
 }
 
 export default connect(mapStateToProps)(Player);
