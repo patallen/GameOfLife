@@ -4,16 +4,13 @@ import ActionTypes from "../actionTypes";
 
 const InitialState = {
   view: "PLAYER",
-  settings: {
-    colors: { dead: "blue", alive: "red" },
-    offset: { x: 0, y: 0 },
-    scale: 10
+  modals: {
+    isCreatingNew: false
   }
 };
 
 function viewReducer(state, action) {
   if (state === undefined) return InitialState;
-
   let temp = copyObject(state);
   switch (action.type) {
     case ActionTypes.SET_GAME_VIEW:
@@ -22,10 +19,14 @@ function viewReducer(state, action) {
     case ActionTypes.RESET_GAME_VIEW:
       temp.view = "PLAYER";
       break;
-    case ActionTypes.SET_DISPLAY_COLORS:
-    case ActionTypes.SET_DISPLAY_OFFSET:
-    case ActionTypes.SET_DISPLAY_SCALE:
-      Object.assign(temp.settings, action.payload);
+    case ActionTypes.INITIATE_CREATE_FILE:
+      temp.modals.isCreatingNew = true;
+      break;
+    case ActionTypes.CANCEL_CREATE_FILE:
+      temp.modals.isCreatingNew = false;
+      break;
+    case ActionTypes.CREATE_FILE:
+      temp.modals.isCreatingNew = false;
       break;
   }
   return temp;

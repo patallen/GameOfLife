@@ -7,6 +7,25 @@ export const setGameView = gameView => {
   };
 };
 
+export const initiateCreateFile = () => {
+    return {
+        type: ActionTypes.INITIATE_CREATE_FILE
+    };
+};
+
+export const cancelCreateFile = () => {
+    return {
+        type: ActionTypes.CANCEL_CREATE_FILE
+    };
+};
+
+export const createFile = (title, width, height) => {
+    return {
+        type: ActionTypes.CREATE_FILE,
+        payload: {title, width, height}
+    };
+};
+
 export const resetGameView = () => {
   return { type: ActionTypes.RESET_GAME_VIEW };
 };
