@@ -55,3 +55,39 @@
     box-shadow: -3px 0px 5px -2px rgba(0, 0, 0, .6);
     transform: translateX(100%);
 }
+.action-group {
+    $line-height: 30px;
+    font-size: .8rem;
+    display: inline-block;
+    height: $line-height;
+    margin-top: 14px;
+    padding: 0 16px;
+    border-radius: 20px;
+    background: $swatch-primary-light;
+    .action-button {
+        text-align: center;
+        font-weight: 100;
+        line-height: $line-height;
+        height: 100%;
+        display: inline-block;
+        color: $swatch-offwhite;
+        padding: 0 20px;
+        text-transform: uppercase;
+        &:hover, &:active, &.active {
+            &:after {
+                content: "";
+                display: block;
+                position: relative;
+                left: calc(100% + 7px);
+                bottom: calc(50% + 2px);
+                width: 4px;
+                height: 4px;
+                background: $swatch-outcast;
+            }
+        }
+        &:hover {
+            color: lighten($swatch-offwhite, 20);
+            cursor: pointer;
+        }
+    }
+}

@@ -38,3 +38,35 @@ export class ToggleButton extends React.Component {
     );
   }
 }
+
+export class ActionGroup extends React.Component {
+  render() {
+    return (
+      <div className="action-group">
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+export class ActionButton extends React.Component {
+  render() {
+    let onClick = this.props.onClick;
+    return (
+      <div className="action-button" onClick={onClick}>
+        {this.props.title}
+      </div>
+    );
+  }
+}
+
+export class Button extends React.Component {
+  render() {
+    let { text, onClick } = this.props;
+    return (
+      <button ref={b => (this.button = b)} onClick={onClick}>
+        {text}
+      </button>
+    );
+  }
+}

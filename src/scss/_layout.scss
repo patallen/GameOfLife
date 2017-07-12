@@ -74,10 +74,10 @@ oseparate:after {
     }
 }
 .header {
+    margin-left: 20px;
     height: $header-height;
     .toggle-button-case {
-        padding: 20px;
-        padding-top: 20px;
+        padding: 10px;
         margin: 0 auto;
         float:right;
         width: $sidebar-width;
