@@ -1,9 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { ToggleButton } from "../components/ui/buttons";
+import {
+  ActionGroup,
+  ActionButton,
+  ToggleButton
+} from "../components/ui/buttons";
 
-import { setGameView } from "../actions/game-view";
+import { setGameView, initiateCreateFile } from "../actions/game-view";
 
 const GV_OPTIONS = [
   { identifier: "EDITOR", display: "Editor" },
@@ -14,6 +18,15 @@ class Header extends React.Component {
   render() {
     return (
       <div className="header">
+        <ActionGroup>
+          <ActionButton
+            name="new"
+            title="New"
+            onClick={this.props.actions.initiateCreateFile}
+          />
+          <ActionButton name="save" title="Save" />
+          <ActionButton name="share" title="Share" />
+        </ActionGroup>
         <div className="toggle-button-case">
           <ToggleButton
             options={GV_OPTIONS}
@@ -30,7 +43,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ setGameView }, dispatch)
+    actions: bindActionCreators({ setGameView, initiateCreateFile }, dispatch)
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
