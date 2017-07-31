@@ -7,7 +7,13 @@ import {
   initiateCreateFile
 } from "../actions/game-view";
 import { TextInput, NumberInput } from "./ui/input";
-import { Button } from "./ui/buttons";
+import {
+  InputCase,
+  FormGroup,
+  PanicButton,
+  SuccessButton,
+  ButtonCase
+} from "./ui/buttons";
 import { NotEmptyValidator, GroupedValidator } from "../lib/validators.js";
 import ReactModal from "react-modal";
 
@@ -26,20 +32,33 @@ class CreateFileModal extends React.Component {
     this.props.actions.cancelCreateFile();
   }
   render() {
+    let { actions, isCreatingNew } = this.props;
+
     return (
       <ReactModal
-        isOpen={this.props.isCreatingNew}
+        isOpen={isCreatingNew}
         contentLabel="Create"
         className="modal"
         overlayClassName="modal-overlay"
         className="modal"
-        onRequestClose={this.props.actions.cancelCreateFile}
+        onRequestClose={actions.cancelCreateFile}
       >
-        <TextInput label="Title" ref={n => (this.title = n)} />
-        <NumberInput label="Weight" ref={n => (this.width = n)} />
-        <NumberInput label="Height" ref={n => (this.height = n)} />
-        <Button text="Cancel" onClick={this.props.actions.cancelCreateFile} />
-        <Button text="Create" onClick={this.createFile.bind(this)} />
+        <h2>New Board</h2>
+
+        <FormGroup>
+          <TextInput label="Title" ref={n => (this.title = n)} />
+          <InputCase>
+            <NumberInput label="Width" ref={n => (this.width = n)} />
+            <NumberInput label="Height" ref={n => (this.height = n)} />
+          </InputCase>
+        </FormGroup>
+
+        <ButtonCase>
+          <PanicButton onClick={actions.cancelCreateFile}>Cancel</PanicButton>
+          <SuccessButton onClick={this.createFile.bind(this)}>
+            Create New Board
+          </SuccessButton>
+        </ButtonCase>
       </ReactModal>
     );
   }

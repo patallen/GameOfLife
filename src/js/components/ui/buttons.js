@@ -39,34 +39,63 @@ export class ToggleButton extends React.Component {
   }
 }
 
-export class ActionGroup extends React.Component {
-  render() {
-    return (
-      <div className="action-group">
-        {this.props.children}
-      </div>
-    );
-  }
-}
+export const InputCase = ({ children }) => {
+  return (
+    <div className="input-case">
+      {children}
+    </div>
+  );
+};
+export const ButtonCase = ({ children }) => {
+  return (
+    <div className="button-case">
+      {children}
+    </div>
+  );
+};
 
-export class ActionButton extends React.Component {
-  render() {
-    let onClick = this.props.onClick;
-    return (
-      <div className="action-button" onClick={onClick}>
-        {this.props.title}
-      </div>
-    );
-  }
-}
+export const FormGroup = ({ children }) => {
+  return (
+    <div className="form-group">
+      {children}
+    </div>
+  );
+};
 
-export class Button extends React.Component {
-  render() {
-    let { text, onClick } = this.props;
-    return (
-      <button ref={b => (this.button = b)} onClick={onClick}>
-        {text}
-      </button>
-    );
-  }
-}
+export const ActionGroup = ({ children }) => {
+  return (
+    <div className="action-group">
+      {children}
+    </div>
+  );
+};
+
+export const ActionButton = ({ onClick, title }) => {
+  return (
+    <Button classNames={["action-button"]} onClick={onClick}>
+      {title}
+    </Button>
+  );
+};
+
+export const Button = ({ classNames, onClick, children }) => {
+  let classnames = ["button"];
+  classnames.push(...classNames);
+  return (
+    <div className={classnames.join(" ")} onClick={onClick}>
+      {children}
+    </div>
+  );
+};
+
+export const SuccessButton = props => {
+  return <Button {...props} classNames={["button-success"]} />;
+};
+
+export const PanicButton = props => {
+  return <Button {...props} classNames={["button-panic"]} />;
+};
+
+export const InfoButton = props => {
+  return <Button {...props} classNames={["button-info"]} />;
+};

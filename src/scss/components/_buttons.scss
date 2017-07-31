@@ -91,3 +91,60 @@
         }
     }
 }
+
+@mixin button($background, $foreground) {
+    background:$background;
+    color: $foreground;
+    border-radius: 4px;
+    &:hover {
+        background: darken($background, 5);
+        color: darken($foreground, 5);
+    }
+    &:active {
+        background: lighten($background, 5);
+        color: lighten($foreground, 5);
+    }
+}
+
+.button {
+    display: inline-block;
+    cursor: pointer;
+    padding: 14px 10px;
+    color: black;
+}
+.input-case {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 -2px;
+    .form-component{
+        margin: 0 2px;
+        width: 100%;
+        height: 100%;
+    }
+}
+.button-case {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    &>.button {
+        margin: 0 4px;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+    }
+}
+.button-{
+    &success {
+        @include button($swatch-outcast, $swatch-white);
+    }
+    &panic {
+        @include button($swatch-primary-light, $swatch-white);
+    }
+}
+
+.form-group {
+    padding: 10px 4px;
+}
